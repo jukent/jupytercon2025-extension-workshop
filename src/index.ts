@@ -20,7 +20,8 @@ const plugin: JupyterFrontEndPlugin<void> = {
       app: JupyterFrontEnd,
       // The activation method receives dependencies in the order they are specified in
       // the "requires" parameter above:
-      palette: ICommandPalette, ILauncher
+      palette: ICommandPalette,
+      launcher: ILauncher,
   ) => {
     console.log('JupyterLab extension jupytercon2025-extension-workshop is activated!');
 
