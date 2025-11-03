@@ -1,25 +1,27 @@
+import { requestAPI } from './request';
+import { ImageCaptionMainAreaWidget } from './widget';
 import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
+import { ILauncher } from '@jupyterlab/launcher';
 import { ICommandPalette } from '@jupyterlab/apputils';
-import { requestAPI } from './request';
+import { imageIcon } from '@jupyterlab/ui-components';
 
 /**
  * Initialization data for the jupytercon2025-extension-workshop extension.
  */
 const plugin: JupyterFrontEndPlugin<void> = {
-  id: 'jupytercon2025-extension-workshop:plugin',
-  description: 'A JupyterLab extension that displays a random image and caption.',
+  id: 'myextension:plugin',
+  description: 'A JupyterLab extension.',
   autoStart: true,
-  requires: [ICommandPalette],  // dependencies of our extension
+  requires: [ICommandPalette, ILauncher],  // dependencies of our extension
   activate: (
       app: JupyterFrontEnd,
       // The activation method receives dependencies in the order they are specified in
       // the "requires" parameter above:
-      palette: ICommandPalette
+      palette: ICommandPalette, ILauncher
   ) => {
-
     console.log('JupyterLab extension jupytercon2025-extension-workshop is activated!');
 
     requestAPI<any>('hello')
@@ -41,11 +43,14 @@ const plugin: JupyterFrontEndPlugin<void> = {
 
         // Then add it to the main area:
         app.shell.add(widget, 'main');
-        return widget;
       },
+      icon: imageIcon,
       label: 'View a random image & caption'
+    });
+
+    palette.addItem({ command: command_id, category: 'Tutorial' });
+    launcher.add({ command: command_id });
   }
 };
 
-  palette.addItem({ command: command_id, category: 'Tutorial' });
-
+export default plugin;
